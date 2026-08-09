@@ -5,7 +5,7 @@ import path from "node:path";
 import postcss from "postcss";
 import * as sass from "sass";
 
-const scssEntrypoints = [{ input: "src/main.scss", output: "output/main.css" }];
+const scssEntrypoints = [{ input: "src/main.scss", output: "docs/main.css" }];
 
 export const buildScss = async ({ mode = "production" } = {}) => {
   const start = performance.now();
