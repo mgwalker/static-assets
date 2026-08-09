@@ -1,0 +1,39 @@
+@use "breakpoints";
+
+$aligns: flex-start, flex-end, center, stretch, baseline;
+$directions: column, column-reverse, row, row-reverse;
+$gaps: gap, row-gap, column-gap;
+$justifies: flex-start, flex-end, center, space-between, space-around;
+
+@include breakpoints.apply() using ($prefix) {
+  .flex,
+  .#{$prefix}flex {
+    display: flex;
+  }
+
+  @each $align in $aligns {
+    .#{$prefix}flex-align--#{$align} {
+      align-items: #{$align};
+    }
+  }
+
+  @each $direction in $directions {
+    .#{$prefix}flex-direction--#{$direction} {
+      flex-direction: #{$direction};
+    }
+  }
+
+  @each $gap in $gaps {
+    @for $i from 0 through 8 {
+      .#{$prefix}flex-gap-#{$i} {
+        #{$gap}: var(--sto-unit-#{$i});
+      }
+    }
+  }
+
+  @each $justify in $justifies {
+    .#{$prefix}flex-justify--#{$justify} {
+      justify-content: #{$justify};
+    }
+  }
+}

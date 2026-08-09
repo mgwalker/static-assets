@@ -1,0 +1,62 @@
+@use "sass:list";
+
+// Define our supported breakpoints. The key is used as the
+// breakpoint class prefix. The value is the breakpoint condition.
+$breakpoints: (
+  "mobile": "(min-width: 0)",
+  "tablet": "(min-width: 40em)",
+  "desktop": "(min-width: 64em)",
+);
+
+@mixin apply() {
+  // This mixin renders a content block for all of the screen breakpoints
+  // we have chosen to target. It's up to the consumer of the mixin to
+  // ensure breakpoint class prefixes are set. Content blocks will receive
+  // a $prefix variable to use.
+  //
+  // Example usage:
+  //
+  //   breakpoints.apply() using ($prefix) {
+  //     .#{$prefix}background-orange {
+  //       background-color: orange;
+  //     }
+  //   }
+  //
+  // This will produce the following CSS:
+  //
+  //   .background-orange {
+  //     background-color: orange;
+  //   }
+  //   @media screen only and (min-width: 64em) {
+  //     .desktop:background-orange {
+  //       background-color: orange;
+  //     }
+  //   }
+  //   @media screen only and (min-width: 40em) {
+  //     .tablet:background-orange {
+  //       background-color: orange;
+  //     }
+  //   }
+  //   @media screen only and (max-width: 0) {
+  //     .mobile:background-orange {
+  //       background-color: orange;
+  //     }
+  //   }
+
+  // First render without a prefix.
+  @content ("");
+
+  // Now iterate over all of the breakpoints
+  @each $name, $condition in $breakpoints {
+    // For the prefix, we will go ahead and add the colon as well.
+    // In the CSS, the colon must be escaped, even though it does
+    // not need to be escaped in the class name in HTML. shrug
+    $prefix: #{$name}\:;
+
+    // Wrap the content in an appropriate media query.
+    @media only screen and #{$condition} {
+      // And render it, passing it the prefix.
+      @content ($prefix);
+    }
+  }
+}

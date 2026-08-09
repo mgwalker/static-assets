@@ -1,0 +1,77 @@
+@use "sass:map";
+@use "style/breakpoints";
+@use "style/flex";
+@use "style/grid";
+
+:root {
+  --root-font-size: 16px;
+}
+
+html {
+  font-family: sans-serif;
+  font-size: var(--root-font-size);
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.box-sizing--border-box {
+  box-sizing: border-box;
+}
+
+.sr-only {
+  clip: rect(1px, 1px, 1px, 1px);
+  clip-path: inset(50%);
+  height: 1px;
+  width: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+}
+
+ul.unstyled {
+  list-style: none;
+  padding: 0;
+  li {
+    margin: 0.5rem 0;
+  }
+}
+
+.align--center {
+  text-align: center;
+}
+.align--right {
+  text-align: right;
+}
+.align--left {
+  text-align: left;
+}
+
+@media only screen and #{map.get(breakpoints.$breakpoints, "mobile")} {
+  main {
+    margin: 0 2rem;
+  }
+}
+@media only screen and #{map.get(breakpoints.$breakpoints, "tablet")} {
+  main {
+    margin: 0 2rem;
+  }
+}
+@media only screen and #{map.get(breakpoints.$breakpoints, "desktop")} {
+  main {
+    width: 64rem;
+    margin: 2rem auto;
+    padding: 0 2rem;
+  }
+}
+
+@include breakpoints.apply() using ($prefix) {
+  .#{$prefix}display-none {
+    display: none;
+  }
+}

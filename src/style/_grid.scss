@@ -1,0 +1,21 @@
+@use "breakpoints";
+
+@include breakpoints.apply() using ($prefix) {
+  grid-container {
+    margin: 0 auto;
+    width: 100%;
+    max-width: 87.5rem !important;
+  }
+
+  grid-row {
+    display: flex !important;
+    flex-wrap: wrap !important;
+  }
+
+  @for $i from 1 through 12 {
+    .#{$prefix}grid-col-#{$i} {
+      box-sizing: border-box;
+      width: calc(100% * #{$i} / 12);
+    }
+  }
+}
