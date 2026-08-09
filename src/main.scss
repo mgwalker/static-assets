@@ -52,6 +52,10 @@ ul.unstyled {
   text-align: left;
 }
 
+main {
+  box-sizing: border-box;
+}
+
 @media only screen and #{map.get(breakpoints.$breakpoints, "mobile")} {
   main {
     margin: 0 2rem;
