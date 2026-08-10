@@ -4,13 +4,26 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import postcss from "postcss";
 import * as sass from "sass";
+import pkg from "../package.json" with { type: "json" };
 
 const scssEntrypoints = [{ input: "src/main.scss", output: "docs/main.css" }];
 
 export const buildScss = async ({ mode = "production" } = {}) => {
-  const start = performance.now();
+  const version = pkg.version.split(".")[0];
 
-  for await (const { input, output } of scssEntrypoints) {
+  const indexVersions = [];
+  for await (const entrypoint of scssEntrypoints) {
+    const files = await fs.readdir(path.dirname(entrypoint.output));
+    const versions = files
+      .filter((filename) => /\.v\d+\./.test(filename))
+      .map((filename) => +filename.match(/\.v(\d+)\./)[1])
+      .sort((a, b) => a - b)
+      .map((v) => `${v}`);
+
+    entrypoint.indexVersion = versions.pop();
+  }
+
+  for await (const { indexVersion, input, output } of scssEntrypoints) {
     const compiled = sass.compile(input, {});
 
     const postcssPlugins = [autoprefixer];
@@ -23,12 +36,12 @@ export const buildScss = async ({ mode = "production" } = {}) => {
     });
 
     await fs.mkdir(path.dirname(output), { recursive: true });
-    await fs.writeFile(output, css);
-  }
 
-  const stop = performance.now();
-  const elapsed = Math.round((stop - start) * 100) / 100;
-  console.log(`built stylesheets in ${elapsed} ms`);
+    await fs.writeFile(output.replace(".css", `.v${version}.css`), css);
+    if (version === indexVersion) {
+      await fs.writeFile(output, css);
+    }
+  }
 };
 
 if (import.meta.main) {
