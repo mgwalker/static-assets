@@ -1,13 +1,14 @@
 {
   "name": "static-assets",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "",
   "license": "ISC",
   "author": "",
   "type": "module",
   "main": "index.js",
   "scripts": {
-    "build": "node src/build.js"
+    "build": "node src/build.js",
+    "dev": "node src/build.js dev"
   },
   "devDependencies": {
     "autoprefixer": "^10.5.4",

@@ -1,28 +1,44 @@
 @use "breakpoints";
 
 @include breakpoints.apply() using ($prefix) {
-  #{$prefix}grid-container {
+  .#{$prefix}grid-container {
     margin: 0 auto;
     width: 100%;
     max-width: 87.5rem !important;
   }
 
-  #{$prefix}grid-row {
+  .#{$prefix}grid-row {
     box-sizing: border-box;
     width: 100%;
     display: flex !important;
     flex-direction: row;
   }
 
-  #{$prefix}grid-column {
-    @extend #{$prefix}grid-row;
+  .#{$prefix}grid-row.#{$prefix}gap,
+  .#{$prefix}grid-row.gap {
+    column-gap: 1rem;
+  }
+
+  .#{$prefix}grid-column {
+    box-sizing: border-box;
+    width: 100%;
+    display: flex !important;
     flex-direction: column;
+
+    &.#{$prefix}gap {
+      row-gap: 1rem;
+    }
   }
 
   @for $i from 1 through 12 {
-    .#{$prefix}grid-col-#{$i} {
+    .grid-row .#{$prefix}grid-cell-#{$i},
+    .#{$prefix}grid-row .#{$prefix}grid-cell-#{$i} {
       box-sizing: border-box;
       width: calc(100% * #{$i} / 12);
+
+      img {
+        max-width: 100%;
+      }
     }
   }
 }

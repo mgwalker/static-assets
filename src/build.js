@@ -11,7 +11,6 @@ const scssEntrypoints = [{ input: "src/main.scss", output: "docs/main.css" }];
 export const buildScss = async ({ mode = "production" } = {}) => {
   const version = pkg.version.split(".")[0];
 
-  const indexVersions = [];
   for await (const entrypoint of scssEntrypoints) {
     const files = await fs.readdir(path.dirname(entrypoint.output));
     const versions = files
@@ -45,5 +44,6 @@ export const buildScss = async ({ mode = "production" } = {}) => {
 };
 
 if (import.meta.main) {
-  buildScss();
+  const [, , mode] = process.argv;
+  buildScss({ mode: mode ?? "production" });
 }

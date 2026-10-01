@@ -26,7 +26,7 @@ $justifies: flex-start, flex-end, center, space-between, space-around;
   @each $gap in $gaps {
     @for $i from 0 through 8 {
       .#{$prefix}flex-gap-#{$i} {
-        #{$gap}: var(--sto-unit-#{$i});
+        #{$gap}: var(#{$i}rem);
       }
     }
   }
